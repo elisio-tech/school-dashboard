@@ -195,7 +195,7 @@ export default function SignInForm() {
                   to="/cadastrar"
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
                 >
-                  Criar conta
+                  Fazer inscrição
                 </Link>
               </p>
             </div>
