@@ -31,7 +31,7 @@ interface Step {
   component: React.ReactNode;
 }
 
-export default function SignUpForm() {
+export default function SignUpFormOne() {
   const [showPassword, setShowPassword] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
