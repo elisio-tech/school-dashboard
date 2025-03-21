@@ -15,11 +15,13 @@ const signInSchema = z.object({
   password: z.string().min(1, "Senha é obrigatória"),
 });
 
+
+
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ email?: string; password?: string } | null>(null);
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
   const { signIn, userData, signInWithGoogle } = useAuth();
@@ -27,24 +29,31 @@ export default function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setError({});
     setLoading(true);
 
     const resulted = signInSchema.safeParse({ email, password });
 
     if (!resulted.success) {
-      setError(resulted.error.errors[0].message);
+      const formattedErrors: { email?: string; password?: string } = {};
+      resulted.error.errors.forEach((err) => {
+        if (err.path[0] === "email") formattedErrors.email = err.message;
+        if (err.path[0] === "password") formattedErrors.password = err.message;
+      });
+    
+      setError(formattedErrors);
       setLoading(false);
       return;
     }
+    
 
     try {
       await signIn(email, password);
     } catch (error: any) {
       if (error.code === "auth/invalid-credential") {
-        setError("E-mail ou senha incorretos. Tente novamente.");
+        setError({ email: "E-mail ou senha incorretos." });
       } else {
-        setError("Ocorreu um erro inesperado. Tente novamente.");
+        setError({ email: "Ocorreu um erro inesperado. Tente novamente." });
       }
     } finally {
       setLoading(false);
@@ -53,7 +62,7 @@ export default function SignInForm() {
 
   const handlePopUp = async () => {
     setLoading(true);
-    setError(null);
+    setError({});
     try {
       await signInWithGoogle();
     } catch (error: any) {
@@ -126,7 +135,7 @@ export default function SignInForm() {
               </div>
             </div>
             <form>
-              {error && <p className="text-error-500 mb-2">{error}</p>}
+              
               <div className="space-y-6">
                 <div>
                   <Label>
@@ -135,7 +144,9 @@ export default function SignInForm() {
                   <Input
                     placeholder="info@gmail.com"
                     value={email}
+                    error={error?.email ? true : false}
                     onChange={(e) => setEmail(e.target.value)}
+                    hint={error?.email}
                   />
                 </div>
                 <div>
@@ -147,7 +158,9 @@ export default function SignInForm() {
                       type={showPassword ? "text" : "password"}
                       placeholder="Palavra-passe"
                       value={password}
+                      error={error?.password ? true : false}
                       onChange={(e) => setPassword(e.target.value)}
+                      hint={error?.password}
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
@@ -155,12 +168,12 @@ export default function SignInForm() {
                     >
                       {showPassword ? (
                         <Eye
-                          size={25}
+                          size={20}
                           color={theme === "dark" ? "#fff" : "#000"}
                         />
                       ) : (
                         <EyeSlash
-                          size={25}
+                          size={20}
                           color={theme === "dark" ? "#fff" : "#000"}
                         />
                       )}
