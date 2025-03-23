@@ -18,7 +18,7 @@ export default function App() {
 
           {/* Fallback Route */}
           <Route path="*" element={<>Not found !</>} />
-        </Routes>s
+        </Routes>
       </Router>
     </div>
   );

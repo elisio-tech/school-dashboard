@@ -20,13 +20,34 @@ const AdminSidebar: React.FC = () => {
   const iconColor = theme === "dark" ? "#fff" : "#101828";
 
   const navItems = [
-    { icon: <Home2 size={16} color={iconColor} variant="Bold" />, name: "Dashboard", path: "/admin/dashboard" },
-    { icon: <User size={16} color={iconColor} variant="Bold" />, name: "Secretary", path: "/admin/secretary" },
-    { icon: <People size={16} color={iconColor} variant="Bold" />, name: "Students", path: "/admin/students" },
-    { icon: <Teacher size={16} color={iconColor} variant="Bold" />, name: "Teachers", path: "/admin/teachers" },
-    { icon: <Book size={16} color={iconColor} variant="Bold" />, name: "Courses", path: "/admin/courses" },
-    { icon: <ClipboardText size={16} color={iconColor} variant="Bold" />, name: "Reports", path: "/admin/reports" },
-    { icon: <Setting2 size={16} color={iconColor} variant="Bold" />, name: "Settings", path: "/admin/settings" },
+    {
+      icon: <Home2 size={16} color={iconColor} variant="Bold" />,
+      name: "Dashboard", path: "/admin/dashboard"
+    },
+    {
+      icon: <User size={16} color={iconColor} variant="Bold" />,
+      name: "Secretary", path: "/admin/secretary"
+    },
+    {
+      icon: <People size={16} color={iconColor} variant="Bold" />,
+      name: "Students", path: "/admin/students"
+    },
+    {
+      icon: <Teacher size={16} color={iconColor} variant="Bold" />,
+      name: "Teachers", path: "/admin/teachers"
+    },
+    {
+      icon: <Book size={16} color={iconColor} variant="Bold" />,
+      name: "Courses", path: "/admin/courses"
+    },
+    {
+      icon: <ClipboardText size={16} color={iconColor} variant="Bold" />,
+      name: "Reports", path: "/admin/reports"
+    },
+    {
+      icon: <Setting2 size={16} color={iconColor} variant="Bold" />,
+      name: "Settings", path: "/admin/settings"
+    },
   ];
 
   return (
@@ -48,9 +69,9 @@ const AdminSidebar: React.FC = () => {
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6 relative">
           <h2 className="mb-4 text-xs uppercase flex ml-2 leading-[20px] text-gray-400 pt-8 md:pt-0">
-            Admin Panel
+           Menu
           </h2>
-          <ul className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-4 dark:text-gray-400">
             {navItems.map((nav) => (
               <li key={nav.name}>
                 <Link

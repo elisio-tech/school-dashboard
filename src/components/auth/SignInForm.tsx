@@ -139,7 +139,7 @@ export default function SignInForm() {
             </div>
             <form>
               {error?.auth && (
-                <span className="text-error-500 text-sm mb-4">
+                <span className="text-error-500 text-xs mb-4">
                   {error.auth}
                 </span>
               )}
