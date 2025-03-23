@@ -15,13 +15,17 @@ const signInSchema = z.object({
   password: z.string().min(1, "Senha é obrigatória"),
 });
 
-
+type errorType = {
+  email?: string;
+  password?: string;
+  auth?: string;
+};
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<{ email?: string; password?: string } | null>(null);
+  const [error, setError] = useState<errorType | null>(null);
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
   const { signIn, userData, signInWithGoogle } = useAuth();
@@ -29,7 +33,7 @@ export default function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError({});
+    setError(null);
     setLoading(true);
 
     const resulted = signInSchema.safeParse({ email, password });
@@ -40,20 +44,19 @@ export default function SignInForm() {
         if (err.path[0] === "email") formattedErrors.email = err.message;
         if (err.path[0] === "password") formattedErrors.password = err.message;
       });
-    
+
       setError(formattedErrors);
       setLoading(false);
       return;
     }
-    
 
     try {
       await signIn(email, password);
     } catch (error: any) {
       if (error.code === "auth/invalid-credential") {
-        setError({ email: "E-mail ou senha incorretos." });
+        setError({ auth: "E-mail ou senha incorretos." });
       } else {
-        setError({ email: "Ocorreu um erro inesperado. Tente novamente." });
+        setError({ auth: "Ocorreu um erro inesperado. Tente novamente." });
       }
     } finally {
       setLoading(false);
@@ -71,7 +74,7 @@ export default function SignInForm() {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     if (userData) {
       setLoading(false);
@@ -135,7 +138,11 @@ export default function SignInForm() {
               </div>
             </div>
             <form>
-              
+              {error?.auth && (
+                <span className="text-error-500 text-sm mb-4">
+                  {error.auth}
+                </span>
+              )}
               <div className="space-y-6">
                 <div>
                   <Label>
@@ -164,17 +171,19 @@ export default function SignInForm() {
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
+                      className="absolute z-30  cursor-pointer right-4 top-3"
                     >
                       {showPassword ? (
                         <Eye
                           size={20}
                           color={theme === "dark" ? "#fff" : "#000"}
+                          variant="Bold"
                         />
                       ) : (
                         <EyeSlash
                           size={20}
                           color={theme === "dark" ? "#fff" : "#000"}
+                          variant="Bold"
                         />
                       )}
                     </span>
@@ -208,7 +217,7 @@ export default function SignInForm() {
                   to="/cadastrar"
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
                 >
-                  Fazer inscrição
+                  Criar conta
                 </Link>
               </p>
             </div>
