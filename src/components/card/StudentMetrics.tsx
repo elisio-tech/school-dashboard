@@ -36,7 +36,7 @@ export default function StudentStatistics() {
       <footer className="mt-8 flex gap-4 flex-wrap">
         {status.map((item, i) => (
           <div className="flex items-center text-sm text-gray-700 dark:text-gray-300 mr-2" key={i}>
-            <span className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: i === 0 ? "green" : i === 1 ? "orange" : "red" }} />
+            <span className={`w-2 h-2 rounded-full mr-2 ${i === 0 ? "bg-green-400" : i === 1 ? "bg-yellow-600" : "bg-red-500"}` }  />
             {item}
           </div>
         ))}
