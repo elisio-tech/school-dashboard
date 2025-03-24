@@ -10,7 +10,9 @@ export default function StudentStatistics() {
     <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-sm mb-2 text-gray-500 dark:text-gray-400">Student Statistics</p>
+          <p className="text-sm mb-2 text-gray-500 dark:text-gray-400">
+            Student Statistics
+          </p>
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
             70% <span className="font-normal text-xs">Passed</span>
           </h1>
@@ -35,8 +37,19 @@ export default function StudentStatistics() {
       </main>
       <footer className="mt-8 flex gap-4 flex-wrap">
         {status.map((item, i) => (
-          <div className="flex items-center text-sm text-gray-700 dark:text-gray-300 mr-2" key={i}>
-            <span className={`w-2 h-2 rounded-full mr-2 ${i === 0 ? "bg-green-400" : i === 1 ? "bg-yellow-600" : "bg-red-500"}` }  />
+          <div
+            className="flex items-center text-sm text-gray-700 dark:text-gray-300 mr-2"
+            key={i}
+          >
+            <span
+              className={`w-2 h-2 rounded-full mr-2 ${
+                i === 0
+                  ? "bg-green-400"
+                  : i === 1
+                  ? "bg-yellow-600"
+                  : "bg-red-500"
+              }`}
+            />
             {item}
           </div>
         ))}
@@ -44,6 +57,3 @@ export default function StudentStatistics() {
     </div>
   );
 }
-
-
-

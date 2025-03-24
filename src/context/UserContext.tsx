@@ -13,7 +13,6 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 
 type AuthContextType = {
   user: User | null;
-  loading: boolean;
   signUp: (
     email: string,
     password: string,
@@ -34,7 +33,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [userData, setUserData] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -52,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       } else {
         setUserData(null);
       }
-      setLoading(false)
+  
     });
 
     return () => unsubscribe();
@@ -119,9 +117,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const signOutUser = async () => {
     await signOut(auth);
   };
+  
   return (
     <AuthContext.Provider
-      value={{ signInWithGoogle, user, userData, signIn, signOutUser, signUp , loading}}
+      value={{ signInWithGoogle, user, userData, signIn, signOutUser, signUp }}
     >
       {children}
     </AuthContext.Provider>

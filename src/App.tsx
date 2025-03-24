@@ -12,9 +12,7 @@ export default function App() {
         <Routes>
           {/* Auth Layout */}
           <Route element={<AppLayout />}>
-            <Route element={<PrivateRoute />}>
-              <Route path="/" element={<Home />} />
-            </Route>
+            <Route path="/" element={<Home />} />
           </Route>
 
           <Route path="/entrar" element={<SignIn />} />

@@ -22,31 +22,31 @@ const AdminSidebar: React.FC = () => {
   const navItems = [
     {
       icon: <Home2 size={16} color={iconColor} variant="Bold" />,
-      name: "Dashboard", path: "/admin/dashboard"
+      name: "Dashboard", path: "/dashboard"
     },
     {
       icon: <User size={16} color={iconColor} variant="Bold" />,
-      name: "Secretary", path: "/admin/secretary"
+      name: "Secretary", path: "/secretary"
     },
     {
       icon: <People size={16} color={iconColor} variant="Bold" />,
-      name: "Students", path: "/admin/students"
+      name: "Students", path: "/students"
     },
     {
       icon: <Teacher size={16} color={iconColor} variant="Bold" />,
-      name: "Teachers", path: "/admin/teachers"
+      name: "Teachers", path: "/teachers"
     },
     {
       icon: <Book size={16} color={iconColor} variant="Bold" />,
-      name: "Courses", path: "/admin/courses"
+      name: "Courses", path: "/courses"
     },
     {
       icon: <ClipboardText size={16} color={iconColor} variant="Bold" />,
-      name: "Reports", path: "/admin/reports"
+      name: "Reports", path: "/reports"
     },
     {
       icon: <Setting2 size={16} color={iconColor} variant="Bold" />,
-      name: "Settings", path: "/admin/settings"
+      name: "Settings", path: "/settings"
     },
   ];
 
