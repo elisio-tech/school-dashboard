@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/AuthPages/SignIn";
 import SignUp from "./pages/AuthPages/SignUp";
-import Home from "./pages/dashboard/Home";
+import Home from "./pages/dashboard/admin/Home";
 import AppLayout from "./layout/AppLayout";
 import PrivateRoute from "./routes/PrivateRoute";
+import Teachers from "./pages/dashboard/admin/ Teachers";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           {/* Auth Layout */}
           <Route element={<AppLayout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/teachers" element={<Teachers />} />
           </Route>
 
           <Route path="/entrar" element={<SignIn />} />

@@ -9,7 +9,8 @@ import {
   deleteUser,
 } from "firebase/auth";
 import { auth, db, provider } from "../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { Teacher, Student, Academic, Admin, CourseType } from "../types/type";
 
 type AuthContextType = {
   user: User | null;
@@ -17,13 +18,18 @@ type AuthContextType = {
     email: string,
     password: string,
     fname: string,
-    lname: string,
+    lname: string
   ) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOutUser: () => Promise<void>;
   userData: any | null;
   signInWithGoogle: () => Promise<void>;
-  
+  addTeacher: (teacher: Teacher) => void;
+  addStudent: (student: Student) => void;
+  addAcademic: (academic: Academic) => void;
+  addAdmin: (admin: Admin) => void;
+  addCourse: (course: CourseType) => void;
+
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -50,7 +56,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       } else {
         setUserData(null);
       }
-  
     });
 
     return () => unsubscribe();
@@ -62,15 +67,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const user = result.user;
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
-  
+
       if (!docSnap.exists()) {
-        
         await deleteUser(user);
         throw new Error(
           "Este email não está registrado. Por favor, crie uma conta."
         );
       }
-  
+
       // Usuário existe no Firestore, atualiza os dados se necessário
       await setDoc(
         docRef,
@@ -89,7 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     email: string,
     password: string,
     fname: string,
-    lname: string,
+    lname: string
   ) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -117,10 +121,73 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const signOutUser = async () => {
     await signOut(auth);
   };
-  
+
+  // Add teacher
+ const addTeacher = async (teacher: Teacher) => {
+  try {
+    const docRef = await addDoc(collection(db, "teachers"), {
+      ...teacher,
+      createdAt: new Date().toISOString(),
+    });
+    return docRef.id; 
+    } catch (error) {
+    throw new Error("Falha ao cadastrar professor.");
+  }
+}
+
+
+  // Add Student
+  const addStudent = async (student: Student) => {
+    try {
+      await addDoc(collection(db, "students"), student);
+    } catch (error) {
+      console.log("Erro ao adicionar estudante", error);
+    }
+  };
+
+  // Add Secretary time
+  const addAcademic = async (academic: Academic) => {
+    try {
+      await addDoc(collection(db, "academic"), academic)
+    } catch (error) {
+      console.log("Erro ao adicionar academic", error);
+    }
+  }
+
+  // Add Admin team
+  const addAdmin = async (admin: Admin) => {
+    try {
+      await addDoc(collection(db, "admin"), admin)
+    } catch (error) {
+      console.log("Erro ao adicionar admin", error);
+    }
+  } 
+
+  // Add Course
+  const addCourse = async (course: CourseType) => {
+    try {
+      await addDoc(collection(db, "course"), course)
+    } catch (error) {
+      console.log("Erro ao adicionar course", error);
+    }
+  }
+
+
   return (
     <AuthContext.Provider
-      value={{ signInWithGoogle, user, userData, signIn, signOutUser, signUp }}
+      value={{
+        addAdmin,
+        addCourse,
+        addAcademic,
+        addStudent,
+        addTeacher,
+        signInWithGoogle,
+        user,
+        userData,
+        signIn,
+        signOutUser,
+        signUp,
+      }}
     >
       {children}
     </AuthContext.Provider>

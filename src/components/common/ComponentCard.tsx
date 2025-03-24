@@ -3,9 +3,10 @@ import Button from "../ui/button/Button";
 interface ComponentCardProps {
   title: string;
   children: React.ReactNode;
-  className?: string; // Additional custom classes for styling
-  desc?: string;
-  btn?: React.ReactNode | string; // Description text
+  className?: string; // Classes personalizadas para estilização
+  desc?: string; // Texto descritivo opcional
+  btn?: React.ReactNode | string; // Botão opcional
+  click?: () => void; // Função opcional para o botão
 }
 
 const ComponentCard: React.FC<ComponentCardProps> = ({
@@ -14,13 +15,14 @@ const ComponentCard: React.FC<ComponentCardProps> = ({
   className = "",
   desc = "",
   btn = "",
+  click = () => {}, // Função padrão vazia
 }) => {
   return (
     <div
       className={`rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] ${className}`}
     >
-      {/* Card Header */}
-      <div className="flex justify-between items-center  px-6 py-5">
+      {/* Cabeçalho do Card */}
+      <div className="flex justify-between items-center px-6 py-5">
         <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
           {title}
         </h3>
@@ -29,10 +31,10 @@ const ComponentCard: React.FC<ComponentCardProps> = ({
             {desc}
           </p>
         )}
-        {btn && <Button>{btn}</Button>}
+        {btn && <Button onClick={click}>{btn}</Button>}
       </div>
 
-      {/* Card Body */}
+      {/* Corpo do Card */}
       <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6">
         <div className="space-y-6">{children}</div>
       </div>

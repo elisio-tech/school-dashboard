@@ -14,6 +14,8 @@ interface User {
   name: string;
   email: string;
   phone: string;
+  photo?: string;
+  salary?: string;
   userType: UserType;
 }
 
@@ -22,7 +24,7 @@ type SubjectType = {
   grade: string;
 };
 
-type CourseType = {
+export type CourseType = {
   name: string;
   subjects: SubjectType[];
 };
