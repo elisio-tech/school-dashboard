@@ -1,11 +1,11 @@
 import Metrics from "../../components/card/Metrics";
-import StudentMetrics from "../../components/card/StudentMetrics";
+import Money from "../../components/card/Money";
 
 export default function Home() {
   return (
     <div >
      <Metrics />
-     <StudentMetrics />
+     <Money />
     </div>
   );
 }

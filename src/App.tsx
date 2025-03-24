@@ -3,6 +3,7 @@ import SignIn from "./pages/AuthPages/SignIn";
 import SignUp from "./pages/AuthPages/SignUp";
 import Home from "./pages/dashboard/Home";
 import AppLayout from "./layout/AppLayout";
+import PrivateRoute from "./routes/PrivateRoute";
 
 export default function App() {
   return (
@@ -11,8 +12,11 @@ export default function App() {
         <Routes>
           {/* Auth Layout */}
           <Route element={<AppLayout />}>
-            <Route path="/" element={<Home />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/" element={<Home />} />
+            </Route>
           </Route>
+
           <Route path="/entrar" element={<SignIn />} />
           <Route path="/cadastrar" element={<SignUp />} />
 
