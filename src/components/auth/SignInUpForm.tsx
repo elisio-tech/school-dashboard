@@ -55,14 +55,14 @@ export default function SignUpForm() {
         email: formattedErrors.email?._errors[0],
         password: formattedErrors.password?._errors[0],
       });
-      
+
       setLoading(false);
       return;
     }
 
     try {
       await signUp(email, password, firstName, lastName);
-    } catch (error : any) {
+    } catch (error: any) {
       setError({ auth: error.message });
     } finally {
       setLoading(false);
@@ -76,25 +76,25 @@ export default function SignUpForm() {
   }, [userData, navigate]);
 
   return (
-    <div className="flex flex-col flex-1 w-full max-w-md mx-auto overflow-y-auto lg:w-1/2 no-scrollbar">
-      <div>
-        <div className="flex justify-between w-full max-w-md mx-auto mb-5 sm:pt-10">
-          <Link
-            to="/entrar"
-            className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-          >
-            <ArrowLeft size={24} color={theme === "dark" ? "#fff" : "#101828"} />
-            Voltar
-          </Link>
-        </div>
+    <div className="flex flex-col flex-1 w-full overflow-y-auto lg:w-1/2 no-scrollbar">
+      <div className="w-full max-w-md mx-auto mb-5 sm:pt-10">
+        <Link
+          to="/entrar"
+          className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+        >
+          <ArrowLeft size={24} color={theme === "dark" ? "#fff" : "#101828"} />
+          Voltar
+        </Link>
+      </div>
 
+      <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
-          <div className="mb-5 sm:mb-8 lg:pt-12">
+          <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
               Criar conta
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Introduza seus dados para concluir o cadastro!
+              Digite seu e-mail e senha para criar sua conta!
             </p>
           </div>
           <div>
@@ -193,7 +193,7 @@ export default function SignUpForm() {
             </form>
 
             <div className="mt-5">
-              <p className="text-sm text-center text-gray-700 dark:text-gray-400 sm:text-start">
+              <p className="mb-2 text-sm text-center text-gray-700 dark:text-gray-400 sm:text-start">
                 Já tem uma conta?{" "}
                 <Link to="/entrar" className="text-brand-500 hover:text-brand-600 dark:text-brand-400">
                   Entrar
