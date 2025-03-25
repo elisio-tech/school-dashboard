@@ -9,6 +9,8 @@ import { Modal } from "../../../components/ui/modal";
 import { useModal } from "../../../hooks/useModal";
 import React, { useState } from "react";
 import { Teacher } from "../../../types/type";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../../firebase";
 
 interface TeacherErrors {
   name?: string;
@@ -54,6 +56,8 @@ const TeacherSchema = z.object({
 });
 
 export default function Teachers() {
+  const [loading, setLoading] = useState(false)
+  const [handleError, setHandleError] = useState<string | null>(null);
   const [errors, setErrors] = useState<TeacherErrors>({});
   const [formData, setFormData] = useState<Partial<Teacher>>({
     name: "",
@@ -69,7 +73,6 @@ export default function Teachers() {
     academicDegree: "",
     salary: "",
   });
-  
 
   const { openModal, isOpen, closeModal } = useModal();
 
@@ -77,13 +80,16 @@ export default function Teachers() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    const validations = TeacherSchema.safeParse(formData);
-    
-    if (!validations.success) {
-      const formattedErrors = validations.error.format();
+    setLoading(true);
   
+    const validations = TeacherSchema.safeParse(formData);
+  
+    if (!validations.success) {
+      setLoading(false)
+      const formattedErrors = validations.error.format();
+
       const simplifiedErrors: TeacherErrors = Object.fromEntries(
         Object.entries(formattedErrors).map(([key, value]) => [
           key,
@@ -92,13 +98,20 @@ export default function Teachers() {
       );
   
       setErrors(simplifiedErrors);
+      setLoading(false);
       return;
     }
   
-    setErrors({});
-    closeModal();
+    try {
+      await addDoc(collection(db, "teachers"), formData);
+      setErrors({});
+      closeModal();
+    } catch (error: any) {
+      setHandleError(error.message || "Erro ao cadastrar professor");
+    } finally {
+      setLoading(false); 
+    }
   };
-  
   
 
   return (
@@ -115,6 +128,9 @@ export default function Teachers() {
             <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
               <form className="flex flex-col">
                 <div className="custom-scrollbar h-[450px] overflow-y-auto px-2 pb-3">
+                  {handleError && (
+                    <p className="text-xs text-red-500">{handleError}</p>
+                  )}
                   <div>
                     <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
                       Personal Information
@@ -142,6 +158,8 @@ export default function Teachers() {
                           type="text"
                           name="bi"
                           value={formData.bi}
+                          error={!!errors.bi}
+                          hint={errors.bi}
                           onChange={handleChange}
                           placeholder="Number of BI"
                         />
@@ -151,9 +169,11 @@ export default function Teachers() {
                           Birth Date<span className="text-red-500">*</span>
                         </Label>
                         <Input
-                          type="date"
+                          type="text"
                           name="birthDate"
                           value={formData.birthDate}
+                          error={!!errors.birthDate}
+                          hint={errors.birthDate}
                           onChange={handleChange}
                           placeholder="Birthdate"
                         />
@@ -165,6 +185,8 @@ export default function Teachers() {
                         <Input
                           type="text"
                           name="gender"
+                          error={!!errors.gender}
+                          hint={errors.gender}
                           value={formData.gender}
                           onChange={handleChange}
                           placeholder="Gender"
@@ -185,6 +207,8 @@ export default function Teachers() {
                           type="email"
                           name="email"
                           value={formData.email}
+                          error={!!errors.email}
+                          hint={errors.email}
                           onChange={handleChange}
                           placeholder="E-mail"
                         />
@@ -197,6 +221,8 @@ export default function Teachers() {
                           type="text"
                           name="phone"
                           value={formData.phone}
+                          error={!!errors.phone}
+                          hint={errors.phone}
                           onChange={handleChange}
                           placeholder="Phone number"
                         />
@@ -209,6 +235,8 @@ export default function Teachers() {
                           type="text"
                           name="province"
                           value={formData.province}
+                          error={!!errors.province}
+                          hint={errors.province}
                           onChange={handleChange}
                           placeholder="Province"
                         />
@@ -221,6 +249,8 @@ export default function Teachers() {
                           type="text"
                           name="district"
                           value={formData.district}
+                          error={!!errors.district}
+                          hint={errors.district}
                           onChange={handleChange}
                           placeholder="District"
                         />
@@ -240,6 +270,8 @@ export default function Teachers() {
                           type="text"
                           name="teachingLevel"
                           value={formData.teachingLevel}
+                          error={!!errors.teachingLevel}
+                          hint={errors.teachingLevel}
                           onChange={handleChange}
                           placeholder="Teaching level"
                         />
@@ -254,6 +286,8 @@ export default function Teachers() {
                           name="fieldOfExpertise"
                           value={formData.fieldOfExpertise}
                           onChange={handleChange}
+                          error={!!errors.fieldOfExpertise}
+                          hint={errors.fieldOfExpertise}
                           placeholder="Field of expertise"
                         />
                       </div>
@@ -265,6 +299,8 @@ export default function Teachers() {
                           type="text"
                           name="academicDegree"
                           value={formData.academicDegree}
+                          error={!!errors.academicDegree}
+                          hint={errors.academicDegree}
                           onChange={handleChange}
                           placeholder="Academic degree"
                         />
@@ -277,6 +313,8 @@ export default function Teachers() {
                           type="text"
                           name="salary"
                           value={formData.salary}
+                          error={!!errors.salary}
+                          hint={errors.salary}
                           onChange={handleChange}
                           placeholder="Salary"
                         />
@@ -289,7 +327,7 @@ export default function Teachers() {
                     Close
                   </Button>
                   <Button size="sm" onClick={handleSave}>
-                    Save Changes
+                    { loading ? "Carregando..." : "Save changes" }
                   </Button>
                 </div>
               </form>
