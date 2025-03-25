@@ -22,7 +22,7 @@ const AdminSidebar: React.FC = () => {
   const navItems = [
     {
       icon: <Home2 size={16} color={iconColor} variant="Bold" />,
-      name: "Dashboard", path: "/dashboard"
+      name: "Dashboard", path: "/"
     },
     {
       icon: <User size={16} color={iconColor} variant="Bold" />,
@@ -58,7 +58,7 @@ const AdminSidebar: React.FC = () => {
         ${isExpanded || isMobileOpen ? "w-[240px]" : "w-[90px]"}
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
     >
-      <Link to={"/admin/dashboard"}>
+      <Link to={"/"}>
         <img
           src="/images/logo/care.svg"
           alt="logo"

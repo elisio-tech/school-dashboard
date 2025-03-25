@@ -10,7 +10,7 @@ export const permissions: Record<UserType, Permission[]> = {
 };
 
 interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone: string;
@@ -45,16 +45,13 @@ export interface Student extends User {
   course: CourseType;
 }
 
-type GenderType = "Male" | "Female";
+export type GenderType = "Male" | "Female";
 
 export interface Teacher extends User {
-  teacherId: string;
   subjects: string[];
   bi: string;
   birthDate: string;
-  gender: GenderType;
-  province: string;
-  district: string;
+  gender: string;
   teachingLevel: string;
   fieldOfExpertise: string;
   academicDegree: string;

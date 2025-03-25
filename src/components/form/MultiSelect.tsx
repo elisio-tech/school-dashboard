@@ -7,7 +7,7 @@ interface Option {
 }
 
 interface MultiSelectProps {
-  label: string;
+  label?: string;
   options: Option[];
   defaultSelected?: string[];
   onChange?: (selected: string[]) => void;
@@ -130,7 +130,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 
           {isOpen && (
             <div
-              className="absolute left-0 z-40 w-full overflow-y-auto bg-white rounded-lg shadow-sm top-full max-h-select dark:bg-gray-900"
+              className="absolute left-0 z-10 w-full overflow-y-auto bg-white rounded-lg shadow-sm top-full max-h-select dark:bg-gray-900"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col">
