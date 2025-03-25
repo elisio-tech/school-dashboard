@@ -45,7 +45,17 @@ export interface Student extends User {
   course: CourseType;
 }
 
+type GenderType = "Male" | "Female";
+
 export interface Teacher extends User {
   teacherId: string;
   subjects: string[];
+  bi: string;
+  birthDate: string;
+  gender: GenderType;
+  province: string;
+  district: string;
+  teachingLevel: string;
+  fieldOfExpertise: string;
+  academicDegree: string;
 }
