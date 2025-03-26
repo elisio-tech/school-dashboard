@@ -5,6 +5,7 @@ import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import { useTheme } from "../../context/ThemeContext";
 import { useAuth } from "../../context/UserContext";
+import Loader from "../ui/loader/Loader";
 import { z } from "zod";
 
 const signInSchema = z.object({
@@ -127,6 +128,7 @@ export default function SignInForm() {
                 Entrar com o Google
               </button>
             </div>
+            { loading && <Loader />}
             <div className="relative py-3 sm:py-5">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
@@ -204,7 +206,7 @@ export default function SignInForm() {
                     onClick={handleSubmit}
                     className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600"
                   >
-                    {loading ? "Carregando..." : "Iniciar sessão"}
+                    {loading  ? "Carregando..." : "Iniciar sessão"}
                   </button>
                 </div>
               </div>
