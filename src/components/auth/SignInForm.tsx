@@ -59,9 +59,7 @@ export default function SignInForm() {
       } else {
         setError({ auth: "Ocorreu um erro inesperado. Tente novamente." });
       }
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   const handlePopUp = async () => {
@@ -70,14 +68,16 @@ export default function SignInForm() {
     try {
       await signInWithGoogle();
     } catch (error: any) {
-      setError(error.message || "Erro ao fazer login com o Google.");
+      setError({ auth: "Usuário não existe, por favor crie um conta" });
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (userData) {
+    if (userData === null || userData === undefined) {
+      return;
+    } else {
       setLoading(false);
       navigate("/");
     }
@@ -141,7 +141,7 @@ export default function SignInForm() {
             </div>
             <form>
               {error?.auth && (
-                <span className="text-error-500 text-xs mb-4">
+                <span className="text-error-500 text-sm mb-8">
                   {error.auth}
                 </span>
               )}

@@ -121,7 +121,7 @@ export default function TeacherForm() {
 
     try {
       const newTeacher: Teacher = {
-        id: crypto.randomUUID(), // Gera um ID único
+        id: crypto.randomUUID(),
         userType: "teacher",
         name,
         email,
@@ -193,7 +193,7 @@ export default function TeacherForm() {
               <Input
                 type="text"
                 name="birthDate"
-                value={bi}
+                value={birthDate}
                 error={!!errors.birthDate}
                 hint={errors.birthDate}
                 onChange={(e) => setBirthDate(e.target.value)}
