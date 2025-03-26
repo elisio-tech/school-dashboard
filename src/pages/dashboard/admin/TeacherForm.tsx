@@ -61,7 +61,7 @@ export default function TeacherForm() {
   const [photo, setPhoto] = useState<string | undefined>(undefined);
   const [salary, setSalary] = useState<string | undefined>(undefined);
   
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  
   const [subjects, setSubjects] = useState<string[]>([]);
   const [bi, setBi] = useState<string>("");
   const [birthDate, setBirthDate] = useState<string>("");
