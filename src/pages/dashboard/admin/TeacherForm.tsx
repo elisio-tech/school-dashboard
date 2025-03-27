@@ -78,7 +78,6 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
     try {
       let photo = "";
 
-      // 🚀 Fazendo upload da imagem para o Firebase Storage
       if (image) {
         const storageRef = ref(storage, `teachers/${image.name}`);
         const snapshot = await uploadBytes(storageRef, image);
@@ -219,7 +218,7 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
           <div>
             <MultiSelect
               options={multiOptions}
-              defaultSelected={["Math", "Biology"]}
+              defaultSelected={["Fisica", "Economia"]}
               onChange={(values) => {
                 console.log("Valores selecionados:", values);
                 setSubjects(values);
