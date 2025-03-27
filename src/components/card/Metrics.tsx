@@ -1,8 +1,28 @@
-import { ArrowDown, ArrowUp, Direct, User, MoneySend, Teacher } from "iconsax-react";
+import { ArrowDown, ArrowUp, Direct, User, Airplane } from "iconsax-react";
 import Badge from "../ui/badge/Badge";
 import { useTheme } from "../../context/ThemeContext";
+import { useEffect, useState } from "react";
+import { Teacher } from "../../types/type";
+import { collection, doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase";
 
 export default function Metrics() {
+  const [teacher, setTeachers] = useState<Teacher[]>([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "teachers"), (snapshot) => {
+      const teacher = snapshot.docs.map((doc) => ({
+        ...(doc.data() as Teacher),
+        id: doc.id,
+      }));
+
+      setTeachers(teacher);
+    });
+
+    return () => unsubscribe();
+  }, [])
+
+
   const { theme } = useTheme();
   const incolor = theme === "dark" ? "#fff" : "#101828";
   return (
@@ -35,7 +55,7 @@ export default function Metrics() {
       {/* <!-- Metric Item Start --> */}
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
         <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-xl dark:bg-gray-800">
-          <Teacher size={24} color={incolor} variant="Bold" />
+          <Airplane size={24} color={incolor} variant="Bold" />
         </div>
         <div className="flex items-end justify-between mt-5">
           <div>
@@ -43,7 +63,7 @@ export default function Metrics() {
               Teacher in school
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              12
+              { teacher.length }
             </h4>
           </div>
 
@@ -69,7 +89,6 @@ export default function Metrics() {
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
               34
             </h4>
-
           </div>
           <Badge color="success">
             <div className="animate-bounce duration-100">

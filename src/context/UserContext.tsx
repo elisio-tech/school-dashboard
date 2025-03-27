@@ -24,7 +24,7 @@ type AuthContextType = {
   signOutUser: () => Promise<void>;
   userData: any | null;
   signInWithGoogle: () => Promise<void>;
-  addTeacher: (teacher: Teacher) => void;
+  addTeacher: (teacher: Teacher) => Promise<string>;
   addStudent: (student: Student) => void;
   addAcademic: (academic: Academic) => void;
   addAdmin: (admin: Admin) => void;

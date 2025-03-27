@@ -15,7 +15,6 @@ interface User {
   email: string;
   phone: string;
   photo?: string;
-  salary?: string;
   userType: UserType;
 }
 
@@ -45,14 +44,14 @@ export interface Student extends User {
   course: CourseType;
 }
 
-export type GenderType = "Male" | "Female";
 
 export interface Teacher extends User {
   subjects: string[];
   bi: string;
-  birthDate: string;
-  gender: string;
-  teachingLevel: string;
-  fieldOfExpertise: string;
-  academicDegree: string;
+ // birthDate: string;
+ // gender: string;
+ // teachingLevel: string;
+ // fieldOfExpertise: string;
+ // academicDegree: string;
+  //salary?: string;
 }

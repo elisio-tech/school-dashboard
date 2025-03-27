@@ -9,6 +9,7 @@ interface ButtonProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => void;  // Click handler
   disabled?: boolean; // Disabled state
   className?: string; // Disabled state
+  type?: string
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,6 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   startIcon,
   endIcon,
   onClick,
+  type,
   className = "",
   disabled = false,
 }) => {
@@ -37,6 +39,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      type="submit"
       className={`inline-flex items-center justify-center gap-2 rounded-lg transition ${className} ${
         sizeClasses[size]
       } ${variantClasses[variant]} ${
