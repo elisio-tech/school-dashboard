@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Teacher } from "../../../types/type";
 import Skeleton from "../../ui/skeleton/Skeleton";
 
+
 export default function BasicTableOne() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,13 +43,13 @@ export default function BasicTableOne() {
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Name
+                  Nome 
                 </TableCell>
                 <TableCell
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Subjects
+                  Disciplinas
                 </TableCell>
                 <TableCell
                   isHeader
@@ -61,7 +62,7 @@ export default function BasicTableOne() {
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Phone
+                  Numero de telefone
                 </TableCell>
               </TableRow>
             </TableHeader>
@@ -89,7 +90,7 @@ export default function BasicTableOne() {
                             {teacher.name}
                           </span>
                           <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                            39
+                            { teacher.age ?? "32" }
                           </span>
                         </div>
                       </div>

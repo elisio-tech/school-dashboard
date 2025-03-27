@@ -14,6 +14,7 @@ import FileInput from "../../../components/form/input/FileInput";
 interface TeacherErrors {
   name?: string;
   email?: string;
+  age?: string;
   phone?: string;
   bi?: string;
   gender?: string;
@@ -23,7 +24,7 @@ interface TeacherErrors {
 const TeacherSchema = z.object({
   name: z.string().min(2, "Name must have at least 2 characters"),
   bi: z.string().min(5, "BI must have at least 5 characters"),
-
+  age: z.string().min(1, "Age must be a valid"),
   email: z.string().email("Invalid email format"),
   phone: z.string().min(8, "Phone number must have at least 8 digits"),
 });
@@ -35,9 +36,10 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
   const [subjects, setSubjects] = useState<string[]>([]);
   const [bi, setBi] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState<File | null>(null)
+  const [image, setImage] = useState<File | null>(null);
   const [handleError, setHandleError] = useState<string | null>(null);
   const [errors, setErrors] = useState<TeacherErrors | null>(null);
+  const [age, setAge] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -52,24 +54,30 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
     e.preventDefault();
     setErrors(null);
     setLoading(true);
-  
+
     // Validação dos campos
-    const validationResult = TeacherSchema.safeParse({ email, bi, name, phone });
-  
+    const validationResult = TeacherSchema.safeParse({
+      email,
+      bi,
+      name,
+      phone,
+      age
+    });
+
     if (!validationResult.success) {
       const formattedErrors: TeacherErrors = {};
       validationResult.error.errors.forEach((err) => {
         formattedErrors[err.path[0]] = err.message;
       });
-  
+
       setErrors(formattedErrors);
       setLoading(false);
       return;
     }
-  
+
     try {
       let photo = "";
-  
+
       // 🚀 Fazendo upload da imagem para o Firebase Storage
       if (image) {
         const storageRef = ref(storage, `teachers/${image.name}`);
@@ -77,22 +85,21 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
         photo = await getDownloadURL(snapshot.ref);
       } else {
         setLoading(false);
-        return ;;
+        return;
       }
-  
-      // 🚀 Adicionando professor com a URL da imagem no Firestore
+
       await addTeacher({
         id: crypto.randomUUID(),
         userType: "teacher",
         name,
+        age,
         email,
         phone,
         bi,
         subjects,
-        photo, // Salvar a URL da foto no banco
+        photo,
       });
-  
-      console.log("✅ Professor adicionado com sucesso!");
+
       externalCloseModal();
     } catch (error: any) {
       setHandleError(error.message || "Erro ao cadastrar professor");
@@ -100,7 +107,7 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
       setLoading(false);
     }
   };
-  
+
   return (
     <form className="flex flex-col" onSubmit={handleSubmit}>
       {loading && <Loader />}
@@ -108,12 +115,12 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
         {handleError && <p className="text-xs text-red-500">{handleError}</p>}
         <div>
           <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
-            Personal Information
+            Informações pessoais
           </h5>
           <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
             <div>
               <Label>
-                Name<span className="text-red-500">*</span>
+                Nome completo<span className="text-red-500">*</span>
               </Label>
               <Input
                 type="text"
@@ -127,7 +134,7 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
             </div>
             <div>
               <Label>
-                BI<span className="text-red-500">*</span>
+                Bilhete de identidade<span className="text-red-500">*</span>
               </Label>
               <Input
                 type="text"
@@ -136,13 +143,28 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
                 error={!!errors?.bi}
                 hint={errors?.bi}
                 onChange={(e) => setBi(e.target.value)}
-                placeholder="Number of BI"
+                placeholder="Numero do bilhete de identidade"
               />
             </div>
 
             <div>
               <Label>
-                Photo<span className="text-red-500">*</span>
+                Idade<span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="text"
+                name="age" 
+                value={age}
+                error={!!errors?.age}
+                hint={errors?.age}
+                onChange={(e) => setAge(e.target.value)}
+                placeholder="Data de nascimento"
+              />
+            </div>
+
+            <div>
+              <Label>
+                Imagem<span className="text-red-500">*</span>
               </Label>
               <FileInput onChange={handleFileChange} className="custom-class" />
             </div>
@@ -150,12 +172,12 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
         </div>
         <div className="mt-7">
           <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
-            Contact
+            Contato
           </h5>
           <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
             <div>
               <Label>
-                Email Address<span className="text-red-500">*</span>
+                Email<span className="text-red-500">*</span>
               </Label>
               <Input
                 type="email"
@@ -164,12 +186,12 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
                 error={!!errors?.email}
                 hint={errors?.email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="E-mail"
+                placeholder="Seu E-mail"
               />
             </div>
             <div>
               <Label>
-                Phone<span className="text-red-500">*</span>
+                Telefone<span className="text-red-500">*</span>
               </Label>
               <Input
                 type="text"
@@ -185,13 +207,13 @@ export default function TeacherForm({ closeModal: externalCloseModal }: any) {
         </div>
         <div className="mt-7">
           <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
-            Professional Information
+            Informações profissionais
           </h5>
           <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2"></div>
         </div>
         <div className="mt-5 mb-12">
           <Label>
-            Subjects
+            Disciplinas
             <span className="text-red-500">*</span>
           </Label>
           <div>

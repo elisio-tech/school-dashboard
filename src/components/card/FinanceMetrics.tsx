@@ -11,7 +11,7 @@ export default function FinanceStatistics() {
     <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-sm mb-2 text-gray-500 dark:text-gray-400">Total Finance</p>
+          <p className="text-sm mb-2 text-gray-500 dark:text-gray-400">Resumo Financeiro</p>
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
             ${totalFinance.toLocaleString()}
           </h1>
@@ -22,19 +22,19 @@ export default function FinanceStatistics() {
       </div>
       <main className="grid grid-cols-[3fr_2fr] gap-1 mt-4 mb-4 text-xs text-gray-500 dark:text-gray-400">
         <div>
-          70% (Income)
-          <div className="w-full h-1 rounded-2xl bg-green-400 mt-2" />
+          70% (Receita)
+          <div className="w-full h-1 rounded-2xl bg-green-500 mt-2" />
         </div>
         <div>
-          30% (Expenses)
-          <div className="w-full h-1 rounded-2xl bg-yellow-600 mt-2" />
+          30% (Despesas)
+          <div className="w-full h-1 rounded-2xl bg-red-500 mt-2" />
         </div>
       </main>
       <footer className="mt-8 flex gap-4 flex-wrap">
         {expenses.map((item, i) => (
           <div className="flex items-center text-sm text-gray-700 dark:text-gray-300 mr-2" key={i}>
-            <span className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: i === 0 ? "green" : "orange" }} />
-            ${parseInt(item).toLocaleString()}
+            <span className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: i === 0 ? "green" : "red" }} />
+            { parseInt(item).toLocaleString()}
           </div>
         ))}
       </footer>

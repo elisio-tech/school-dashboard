@@ -26,23 +26,23 @@ const AdminSidebar: React.FC = () => {
     },
     {
       icon: <User size={16} color={iconColor} variant="Bold" />,
-      name: "Secretary", path: "/secretary"
+      name: "Secretaria", path: "/secretary"
     },
     {
       icon: <People size={16} color={iconColor} variant="Bold" />,
-      name: "Students", path: "/students"
+      name: "Estudentes", path: "/students"
     },
     {
       icon: <Teacher size={16} color={iconColor} variant="Bold" />,
-      name: "Teachers", path: "/teachers"
+      name: "Professores", path: "/teachers"
     },
     {
       icon: <Book size={16} color={iconColor} variant="Bold" />,
-      name: "Courses", path: "/courses"
+      name: "Cursos", path: "/courses"
     },
     {
       icon: <ClipboardText size={16} color={iconColor} variant="Bold" />,
-      name: "Reports", path: "/reports"
+      name: "Relatórios", path: "/reports"
     },
     {
       icon: <Setting2 size={16} color={iconColor} variant="Bold" />,

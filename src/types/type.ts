@@ -48,7 +48,7 @@ export interface Student extends User {
 export interface Teacher extends User {
   subjects: string[];
   bi: string;
- // birthDate: string;
+  age: string;
  // gender: string;
  // teachingLevel: string;
  // fieldOfExpertise: string;

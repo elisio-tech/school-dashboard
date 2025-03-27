@@ -4,17 +4,17 @@ import { useTheme } from "../../context/ThemeContext";
 export default function StudentStatistics() {
   const { theme } = useTheme();
   const incolor = theme === "dark" ? "#fff" : "#101828";
-  const status = ["Passed", "Failed", "Dropped Out"];
+  const status = ["Bom", "Médio", "Mau"];
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
       <div className="flex justify-between items-start">
         <div>
           <p className="text-sm mb-2 text-gray-500 dark:text-gray-400">
-            Student Statistics
+            Nivel de aproveitamento
           </p>
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            70% <span className="font-normal text-xs">Passed</span>
+            70% 
           </h1>
         </div>
         <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">

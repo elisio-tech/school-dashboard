@@ -11,9 +11,9 @@ export default function Teachers() {
  
   return (
     <>
-      <PageBreadcrumb pageTitle="Teachers" />
+      <PageBreadcrumb pageTitle="Professores" />
       <div className="space-y-6">
-        <ComponentCard title="Teachers" click={openModal} btn={"New teacher"}>
+        <ComponentCard title="Professores" click={openModal} btn={"Novo professor"}>
           <BasicTableOne />
           <Modal
             isOpen={isOpen}

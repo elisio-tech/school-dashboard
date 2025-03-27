@@ -3,7 +3,7 @@ import Badge from "../ui/badge/Badge";
 import { useTheme } from "../../context/ThemeContext";
 import { useEffect, useState } from "react";
 import { Teacher } from "../../types/type";
-import { collection, doc, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function Metrics() {
@@ -36,7 +36,7 @@ export default function Metrics() {
         <div className="flex items-end justify-between mt-5">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              Total of students
+              Total de estudentes
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
               541
@@ -60,7 +60,7 @@ export default function Metrics() {
         <div className="flex items-end justify-between mt-5">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              Teacher in school
+              Total de professores
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
               { teacher.length }
@@ -84,10 +84,10 @@ export default function Metrics() {
         <div className="flex items-end justify-between mt-5">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              All Courses
+              Cursos ministrados
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              34
+              11
             </h4>
           </div>
           <Badge color="success">
