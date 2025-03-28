@@ -1,8 +1,8 @@
-import ComponentCard from "../../../components/common/ComponentCard";
-import PageBreadcrumb from "../../../components/common/PageBreadCrumb";
-import BasicTableOne from "../../../components/tables/BasicTables/BasicTableOne";
-import { Modal } from "../../../components/ui/modal";
-import { useModal } from "../../../hooks/useModal";
+import ComponentCard from "../../../../components/common/ComponentCard";
+import PageBreadcrumb from "../../../../components/common/PageBreadCrumb";
+import BasicTableOne from "../../../../components/tables/BasicTables/BasicTableOne";
+import { Modal } from "../../../../components/ui/modal";
+import { useModal } from "../../../../hooks/useModal";
 import TeacherForm from "./TeacherForm";
 
 

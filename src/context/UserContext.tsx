@@ -26,7 +26,7 @@ type AuthContextType = {
   signInWithGoogle: () => Promise<void>;
   addTeacher: (teacher: Teacher) => Promise<string>;
   addStudent: (student: Student) => void;
-  addAcademic: (academic: Academic) => void;
+  addAcademic: (academic: Academic) => Promise<void>;
   addAdmin: (admin: Admin) => void;
   addCourse: (course: CourseType) => void;
 
@@ -148,7 +148,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   // Add Secretary time
   const addAcademic = async (academic: Academic) => {
     try {
-      await addDoc(collection(db, "academic"), academic)
+      await addDoc(collection(db, "secretary"), academic)
     } catch (error) {
       console.log("Erro ao adicionar academic", error);
     }

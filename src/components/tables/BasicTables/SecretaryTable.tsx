@@ -9,21 +9,21 @@ import {
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useEffect, useState } from "react";
-import { Teacher } from "../../../types/type";
+import { Academic  } from "../../../types/type";
 import Skeleton from "../../ui/skeleton/Skeleton";
 
-export default function BasicTableOne() {
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
+export default function SecretaryTable() {
+  const [staff, setStaff] = useState<Academic[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "teachers"), (snapshot) => {
-      const teachersList = snapshot.docs.map((doc) => ({
-        ...(doc.data() as Teacher),
+    const unsubscribe = onSnapshot(collection(db, "secretary"), (snapshot) => {
+      const users = snapshot.docs.map((doc) => ({
+        ...(doc.data() as Academic),
         id: doc.id,
       }));
 
-      setTeachers(teachersList);
+      setStaff(users);
       setLoading(false);
     });
 
@@ -48,7 +48,7 @@ export default function BasicTableOne() {
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Disciplinas
+                  Cargo
                 </TableCell>
                 <TableCell
                   isHeader
@@ -67,30 +67,30 @@ export default function BasicTableOne() {
             </TableHeader>
 
             <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-              {teachers.map((teacher) => (
-                <TableRow key={teacher.id}>
+              {staff.map((item) => (
+                <TableRow key={item.id}>
                   <TableCell className="px-5 py-4 sm:px-6 text-start">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 overflow-hidden rounded-full">
                         <img
                           width={40}
                           height={40}
-                          src={teacher.photo}
-                          alt={teacher.name}
+                          src={item.photo}
+                          alt={item.name}
                         />
                       </div>
                       <div>
                         <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                          {teacher.name}
+                          {item.name}
                         </span>
                         <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                          {teacher.age ?? "32"}
+                          {item.age ?? "32"}
                         </span>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                    {teacher.subjects.map((item, i) => (
+                    {item.areas.map((item, i) => (
                       <span key={i} className="mr-4">
                         {item}
                       </span>
@@ -98,11 +98,11 @@ export default function BasicTableOne() {
                   </TableCell>
 
                   <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                    {teacher.email}
+                    {item.email}
                   </TableCell>
 
                   <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                    {teacher.phone}
+                    {item.phone}
                   </TableCell>
                 </TableRow>
               ))}

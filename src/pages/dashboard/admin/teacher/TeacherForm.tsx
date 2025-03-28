@@ -1,15 +1,15 @@
-import Input from "../../../components/form/input/InputField";
-import Label from "../../../components/form/Label";
+import Input from "../../../../components/form/input/InputField";
+import Label from "../../../../components/form/Label";
 import { z } from "zod";
-import Button from "../../../components/ui/button/Button";
+import Button from "../../../../components/ui/button/Button";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../../../firebase";
+import { storage } from "../../../../firebase";
 import { useState } from "react";
-import { useAuth } from "../../../context/UserContext";
-import MultiSelect from "../../../components/form/MultiSelect";
-import { multiOptions } from "../../../utils/utils";
-import Loader from "../../../components/ui/loader/Loader";
-import FileInput from "../../../components/form/input/FileInput";
+import { useAuth } from "../../../../context/UserContext";
+import MultiSelect from "../../../../components/form/MultiSelect";
+import { multiOptions } from "../../../../utils/utils";
+import Loader from "../../../../components/ui/loader/Loader";
+import FileInput from "../../../../components/form/input/FileInput";
 
 interface TeacherErrors {
   name?: string;

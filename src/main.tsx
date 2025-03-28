@@ -2,15 +2,17 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import { ThemeProvider } from "./context/ThemeContext.tsx";
-import { AuthProvider } from "./context/UserContext.tsx";
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ThemeProvider>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </ThemeProvider>
-  </StrictMode>
-);
+document.addEventListener("DOMContentLoaded", () => {
+  const rootElement = document.getElementById("root");
+
+  if (!rootElement) {
+    throw new Error("Elemento #root não encontrado! Verifique o index.html.");
+  }
+
+  createRoot(rootElement).render(
+    <StrictMode>
+      <App />
+    </StrictMode>
+  );
+});

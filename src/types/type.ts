@@ -32,11 +32,12 @@ export interface Admin extends User {
   adminId: string;
 }
 
-type AcademicType = "reception" | "secretary" | "finance";
+
 
 export interface Academic extends User {
-  academicId: string;
-  areas: AcademicType[];
+  areas: string[];
+  age: string;
+  bi: string
 }
 
 export interface Student extends User {
