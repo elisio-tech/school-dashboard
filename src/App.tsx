@@ -7,6 +7,7 @@ import Teachers from "./pages/dashboard/admin/teacher/ Teachers";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/UserContext";
 import Secretary from "./pages/dashboard/admin/secretary /Secretary";
+import UserProfile from "./pages/dashboard/profile/UserProfile";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/teachers" element={<Teachers />} />
               <Route path="/secretary" element={<Secretary />} />
+              <Route path="/profile" element={<UserProfile />} />
             </Route>
 
             <Route path="/entrar" element={<SignIn />} />
