@@ -7,6 +7,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { EventInput, DateSelectArg, EventClickArg } from "@fullcalendar/core";
 import { Modal } from "../../../components/ui/modal";
 import { useModal } from "../../../hooks/useModal";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../../firebase";
+import Loader from "../../../components/ui/loader/Loader";
 
 interface CalendarEvent extends EventInput {
   extendedProps: {
@@ -23,39 +26,36 @@ const Calendar: React.FC = () => {
   const [eventEndDate, setEventEndDate] = useState("");
   const [eventLevel, setEventLevel] = useState("");
   const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [loading, setLoading] = useState(false);
   const calendarRef = useRef<FullCalendar>(null);
   const { isOpen, openModal, closeModal } = useModal();
 
   const calendarsEvents = {
-    Perigo: "danger",
-    Sucesso: "success",
-    Primario: "primary",
-    Aviso: "warning",
+    Danger: "danger",
+    Success: "success",
+    Primary: "primary",
+    Warning: "warning",
   };
 
   useEffect(() => {
-    // Initialize with some events
-    setEvents([
-      {
-        id: "1",
-        title: "Avaliação",
-        start: new Date().toISOString().split("T")[0],
-        extendedProps: { calendar: "Danger" },
-      },
-      {
-        id: "2",
-        title: "Reunião de pais",
-        start: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Success" },
-      },
-      {
-        id: "3",
-        title: "Passeio",
-        start: new Date(Date.now() + 172800000).toISOString().split("T")[0],
-        end: new Date(Date.now() + 259200000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Primary" },
-      },
-    ]);
+    const unsubscribe = onSnapshot(collection(db, "events"), (snapshot) => {
+      const eventList: CalendarEvent[] = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          title: data.title,
+          start: data.start,
+          end: data.end,
+          extendedProps: {
+            calendar: data.calendar || "default",
+          },
+        };
+      });
+
+      setEvents(eventList);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const handleDateSelect = (selectInfo: DateSelectArg) => {
@@ -75,7 +75,8 @@ const Calendar: React.FC = () => {
     openModal();
   };
 
-  const handleAddOrUpdateEvent = () => {
+  const handleAddOrUpdateEvent = async () => {
+    setLoading(true);
     if (selectedEvent) {
       // Update existing event
       setEvents((prevEvents) =>
@@ -103,6 +104,21 @@ const Calendar: React.FC = () => {
       };
       setEvents((prevEvents) => [...prevEvents, newEvent]);
     }
+
+    try {
+      await addDoc(collection(db, "events"), {
+        title: eventTitle,
+        start: eventStartDate,
+        end: eventEndDate,
+        calendar: eventLevel,
+        createdAt: new Date().toISOString(),
+      });
+    } catch (error: any) {
+      console.error("Erro ao adicionar evento no Firestore:", error);
+    } finally {
+      setLoading(false);
+    }
+
     closeModal();
     resetModalFields();
   };
@@ -148,12 +164,13 @@ const Calendar: React.FC = () => {
           className="max-w-[700px] p-6 lg:p-10"
         >
           <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">
+            {loading && <Loader />}
             <div>
               <h5 className="mb-2 font-semibold text-gray-800 modal-title text-theme-xl dark:text-white/90 lg:text-2xl">
                 {selectedEvent ? "Editar Evento" : "Criar Evento"}
               </h5>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Planeje seu próximo grande momento para atualizar 
+                Planeje seu próximo grande momento para atualizar
               </p>
             </div>
             <div className="mt-8">
@@ -254,7 +271,11 @@ const Calendar: React.FC = () => {
                 type="button"
                 className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
               >
-                {selectedEvent ? "Salvar alterações" : "Cadastrar Evento"}
+                {loading
+                  ? "Carregando..."
+                  : selectedEvent
+                  ? "Salvar alterações"
+                  : "Cadastrar Evento"}
               </button>
             </div>
           </div>
@@ -265,16 +286,24 @@ const Calendar: React.FC = () => {
 };
 
 const renderEventContent = (eventInfo: any) => {
-  const colorClass = `fc-bg-${eventInfo.event.extendedProps.calendar.toLowerCase()}`;
+  const calendarType = eventInfo.event.extendedProps?.calendar || "default";
+  const colorMap: Record<string, string> = {
+    danger: "bg-red-500 text-white",
+    success: "bg-green-500 text-white",
+    primary: "bg-blue-500 text-white",
+    warning: "bg-yellow-500 text-black",
+    default: "bg-gray-500 text-white",
+  };
+
+  const colorClass = colorMap[calendarType.toLowerCase()] || colorMap.default;
+
   return (
-    <div
-      className={`event-fc-color flex fc-event-main ${colorClass} p-1 rounded-sm`}
-    >
-      <div className="fc-daygrid-event-dot"></div>
-      <div className="fc-event-time">{eventInfo.timeText}</div>
-      <div className="fc-event-title">{eventInfo.event.title}</div>
+    <div className={`flex items-center gap-2 p-1 rounded-md shadow-sm ${colorClass}`}>
+      <span className="font-semibold">{eventInfo.timeText}</span>
+      <span className="text-sm truncate">{eventInfo.event.title}</span>
     </div>
   );
 };
+
 
 export default Calendar;
