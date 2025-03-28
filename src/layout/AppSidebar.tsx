@@ -42,7 +42,7 @@ const AdminSidebar: React.FC = () => {
     },
     {
       icon: <ClipboardText size={16} color={iconColor} variant="Bold" />,
-      name: "Relatórios", path: "/reports"
+      name: "Calendário", path: "/calender"
     },
     {
       icon: <Setting2 size={16} color={iconColor} variant="Bold" />,

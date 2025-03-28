@@ -8,6 +8,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/UserContext";
 import Secretary from "./pages/dashboard/admin/secretary /Secretary";
 import UserProfile from "./pages/dashboard/profile/UserProfile";
+import Calendar from "./pages/dashboard/calender/Calendar";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
               <Route path="/teachers" element={<Teachers />} />
               <Route path="/secretary" element={<Secretary />} />
               <Route path="/profile" element={<UserProfile />} />
+              <Route path="/calender" element={<Calendar />} />
             </Route>
 
             <Route path="/entrar" element={<SignIn />} />
