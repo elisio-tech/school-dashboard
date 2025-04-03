@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/UserContext";
 import Secretary from "./pages/dashboard/admin/secretary /Secretary";
 import UserProfile from "./pages/dashboard/profile/UserProfile";
 import Calendar from "./pages/dashboard/calender/Calendar";
+import Blank from "./components/Blank";
 
 export default function App() {
   return (
@@ -20,7 +21,7 @@ export default function App() {
             <Route element={<AppLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/teachers" element={<Teachers />} />
-              <Route path="/secretary" element={<Secretary />} />
+              <Route path="/secretary" element={<>Hello</> } />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/calender" element={<Calendar />} />
             </Route>

@@ -1,6 +1,6 @@
 import ComponentCard from "../../../../components/common/ComponentCard";
 import PageBreadcrumb from "../../../../components/common/PageBreadCrumb";
-import BasicTableOne from "../../../../components/tables/BasicTables/BasicTableOne";
+import TeacherTable from "../../../../components/tables/BasicTables/TeacherTable";
 import { Modal } from "../../../../components/ui/modal";
 import { useModal } from "../../../../hooks/useModal";
 import TeacherForm from "./TeacherForm";
@@ -14,7 +14,7 @@ export default function Teachers() {
       <PageBreadcrumb pageTitle="Professores" />
       <div className="space-y-6">
         <ComponentCard title="Professores" click={openModal} btn={"Novo professor"}>
-          <BasicTableOne />
+          <TeacherTable />
           <Modal
             isOpen={isOpen}
             onClose={closeModal}
