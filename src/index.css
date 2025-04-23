@@ -4,18 +4,13 @@ layer(base);
 
 @import "tailwindcss";
 
-@font-face {
-    font-family: "Font";
-    src: url("/fonts/index.ttf");
-    font-weight: normal;
-}
 
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-*: initial;
-  --font-outfit: Font , sans-serif;
+  --font-outfit: Outfit, sans-serif;
 
   --breakpoint-*: initial;
   --breakpoint-2xsm: 375px;
